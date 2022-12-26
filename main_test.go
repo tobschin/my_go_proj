@@ -1,25 +1,47 @@
 package main
 
 import (
+	"bytes"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 	"github.com/tobischin/my_go_proj/handler"
 )
 
-func Test_hello_should_be_empty(t *testing.T) {
-
-	if SayHello() != "" {
-		t.Fatalf("hello should be empty")
-	}
-
+func SetUpRouter() *gin.Engine {
+	r := gin.Default()
+	r.GET("/", handler.GetHello)
+	r.POST("/", handler.PostHello)
+	return r
 }
 
-func Test_hello_should_not_be_empty(t *testing.T) {
+func SetUpEnv() {
+	handler.Hello = "Habe die Ehre"
+}
 
-	handler.Hello = "Hello World"
+func Test_GetHandler(t *testing.T) {
 
-	if SayHello() != "Hello World" {
-		t.FailNow()
-	}
+	SetUpEnv()
+	r := SetUpRouter()
+	req, _ := http.NewRequest(http.MethodGet, "/", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	responseData, _ := ioutil.ReadAll(w.Body)
+	responseStr := string(responseData)
+	assert.Equal(t, `{"message":"Habe die Ehre"}`, responseStr)
+}
 
+func Test_PostHandler(t *testing.T) {
+	postBody := `{"firstname" : "Hans", "lastname" : "Peter"}`
+	r := SetUpRouter()
+	req, _ := http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(postBody)))
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	responseData, _ := ioutil.ReadAll(w.Body)
+	responseStr := string(responseData)
+	assert.Equal(t, `{"firstname":"Hans","lastname":"Peter"}`, responseStr)
 }
