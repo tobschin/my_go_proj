@@ -3,18 +3,19 @@ package main
 import (
 	"log"
 
-	"github.com/my_go_proj/handler/hello_handler"
+	"github.com/gin-gonic/gin"
+	"github.com/tobischin/my_go_proj/handler"
 )
 
-var Hello string
-
 func main() {
-	Hello = "Hello World"
-	log.Writer(hello_handler.GetHello())
-
+	handler.Hello = "Hello World"
+	r := gin.Default()
+	r.GET("/", handler.GetHello)
+	r.Run()
+	log.Printf("Running on default http://localhost:8080")
 }
 
 func SayHello() string {
-	log.Println(Hello)
-	return Hello
+	log.Println(handler.Hello)
+	return handler.Hello
 }

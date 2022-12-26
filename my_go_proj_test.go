@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/tobischin/my_go_proj/handler"
+)
 
 func Test_hello_should_be_empty(t *testing.T) {
 
@@ -12,7 +16,7 @@ func Test_hello_should_be_empty(t *testing.T) {
 
 func Test_hello_should_not_be_empty(t *testing.T) {
 
-	Hello = "Hello World"
+	handler.Hello = "Hello World"
 
 	if SayHello() != "Hello World" {
 		t.FailNow()
