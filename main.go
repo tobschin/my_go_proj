@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tobischin/my_go_proj/handler"
+	"github.com/tobschin/my_go_proj/handler"
 )
 
 func main() {

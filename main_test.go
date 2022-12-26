@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"github.com/tobischin/my_go_proj/handler"
+	"github.com/tobschin/my_go_proj/handler"
 )
 
 func SetUpRouter() *gin.Engine {
