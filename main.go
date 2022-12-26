@@ -11,6 +11,8 @@ func main() {
 	handler.Hello = "Hello World"
 	r := gin.Default()
 	r.GET("/", handler.GetHello)
+	r.POST("/", handler.PostHello)
+	r.PUT("/:language", handler.PutHello)
 	r.Run()
 	log.Printf("Running on default http://localhost:8080")
 }
